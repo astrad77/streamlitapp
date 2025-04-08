@@ -27,6 +27,26 @@ def load_name_data():
     data['pct'] = data['count'] / data.groupby(['year', 'sex'])['count'].transform('sum')
     return data
 
+url = 'https://raw.githubusercontent.com/esnt/Data/refs/heads/main/Names/popular_names.csv'
+df = pd.read_csv(url)
+
+names_file = 'names.zip'
+with zipfile.ZipFile(names_file, 'r') as z:
+    dfs = []
+    files = [file for file in z.namelist() if file.endswith('.txt')]
+    for file in files:
+        with z.open(file) as f:
+            df = pd.read_csv(f)
+            df.columns = ['name', 'sex', 'count']
+            df['year'] = file[3:7]
+            dfs.append(df)
+
+df = pd.concat(dfs, ignore_index=True)
+
+df['total_births'] = df.groupby(['year', 'sex'])['count'].transform('sum')
+df['prop'] = df['count'] / df['total_births']
+df['rank'] = df.groupby(['year', 'sex'])['count'].rank(method='first', ascending=False)
+
 st.title('My Name App')
 
 
