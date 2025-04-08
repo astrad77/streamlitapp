@@ -7,7 +7,6 @@ import requests
 from io import BytesIO
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from my_plots import *
 import streamlit as st
 
 # LOAD DATA DIRECTLY FROM SS WEBSITE
