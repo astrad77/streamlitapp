@@ -27,15 +27,6 @@ def load_name_data():
     data['pct'] = data['count'] / data.groupby(['year', 'sex'])['count'].transform('sum')
     return data
 
-## LOAD DATA FROM A SAVED FILE
-df = pd.read_csv('all_names.csv')
-df['total_births'] = df.groupby(['year', 'sex'])['count'].transform('sum')
-df['prop'] = df['count'] / df['total_births']
-
-# LOAD DATA FROM A SMALLER NAME DATASET ON GITHUB
-url = 'https://raw.githubusercontent.com/esnt/Data/refs/heads/main/Names/popular_names.csv'
-df = pd.read_csv(url)
-
 st.title('My Name App')
 
 
